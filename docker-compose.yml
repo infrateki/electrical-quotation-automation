@@ -4,12 +4,12 @@ services:
   # PostgreSQL - Primary Database
   postgres:
     image: postgres:15-alpine
-    container_name: quotation_postgres
+    container_name: proquote_postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: quotation_user
-      POSTGRES_PASSWORD: quotation_pass
-      POSTGRES_DB: quotation_db
+      POSTGRES_USER: proquote_user
+      POSTGRES_PASSWORD: proquote_pass
+      POSTGRES_DB: proquote_db
       POSTGRES_INITDB_ARGS: "-E UTF8"
     ports:
       - "5432:5432"
@@ -17,7 +17,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./infrastructure/docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U quotation_user -d quotation_db"]
+      test: ["CMD-SHELL", "pg_isready -U proquote_user -d proquote_db"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -25,14 +25,14 @@ services:
   # Neo4j - Graph Database for Electrical Components
   neo4j:
     image: neo4j:5-community
-    container_name: quotation_neo4j
+    container_name: proquote_neo4j
     restart: unless-stopped
     environment:
       NEO4J_AUTH: neo4j/neo4j_password
       NEO4J_PLUGINS: '["apoc", "graph-data-science"]'
       NEO4J_dbms_memory_pagecache_size: 512M
       NEO4J_dbms_memory_heap_max__size: 1G
-      NEO4J_dbms_default__database: quotation
+      NEO4J_dbms_default__database: proquote
     ports:
       - "7474:7474"  # HTTP
       - "7687:7687"  # Bolt
@@ -51,7 +51,7 @@ services:
   # Redis - Caching and Session Management
   redis:
     image: redis:7-alpine
-    container_name: quotation_redis
+    container_name: proquote_redis
     restart: unless-stopped
     command: redis-server --appendonly yes --requirepass redis_password
     ports:
@@ -67,7 +67,7 @@ services:
   # Adminer - Database Management UI
   adminer:
     image: adminer:latest
-    container_name: quotation_adminer
+    container_name: proquote_adminer
     restart: unless-stopped
     ports:
       - "8080:8080"
@@ -79,7 +79,7 @@ services:
   # Redis Commander - Redis Management UI
   redis-commander:
     image: rediscommander/redis-commander:latest
-    container_name: quotation_redis_commander
+    container_name: proquote_redis_commander
     restart: unless-stopped
     environment:
       REDIS_HOSTS: local:redis:6379:0:redis_password
@@ -93,10 +93,10 @@ services:
   #   build:
   #     context: .
   #     dockerfile: Dockerfile
-  #   container_name: quotation_api
+  #   container_name: proquote_api
   #   restart: unless-stopped
   #   environment:
-  #     DATABASE_URL: postgresql+asyncpg://quotation_user:quotation_pass@postgres:5432/quotation_db
+  #     DATABASE_URL: postgresql+asyncpg://proquote_user:proquote_pass@postgres:5432/proquote_db
   #     NEO4J_URI: bolt://neo4j:7687
   #     NEO4J_USER: neo4j
   #     NEO4J_PASSWORD: neo4j_password
@@ -127,5 +127,5 @@ volumes:
 
 networks:
   default:
-    name: quotation_network
+    name: proquote_network
     driver: bridge
