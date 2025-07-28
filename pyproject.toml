@@ -3,14 +3,14 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "electrical-quotation-automation"
+name = "proquote"
 version = "0.1.0"
-description = "AI-powered electrical quotation automation system with multi-agent orchestration"
+description = "ProQuote - AI-powered electrical quotation automation system with multi-agent orchestration"
 authors = [{name = "INFRATEK", email = "sergio@infratek.ai"}]
 requires-python = ">=3.11"
 readme = "README.md"
 license = {text = "MIT"}
-keywords = ["electrical", "quotation", "automation", "ai", "langgraph", "agents"]
+keywords = ["electrical", "quotation", "automation", "ai", "langgraph", "agents", "proquote"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
